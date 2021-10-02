@@ -1,0 +1,66 @@
+h1{
+    color:white;
+    text-align: center;
+    background-image: linear-gradient(to right,blue, purple 70%)  
+}       
+
+#cityDiv{
+    margin-left: 15px;
+    width:20%;
+}
+
+h2{
+    font-weight: bold;
+}
+
+main{
+    display: flex;
+}
+input{
+    width:95%;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+#searchBtn{
+    width:95%;
+    padding:5px 15px;
+    background-color: lightblue;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+#city{
+    width:95%;
+    padding:5px 15px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+hr{
+    background-color:darkgray;
+}
+
+#weatherDiv{
+    width:76%;
+    margin-left: 15px;  
+}
+#today{
+    border: 2px solid black;
+    padding-left:5px;
+}   
+
+h3{
+    font-size: 24px;
+    font-weight: bolder;
+    margin-top: 10px;
+}
+
+#futureWeather{
+    display: flex;
+    justify-content: space-between;
+    color:white;    
+}
+
+.futureIcon{
+    background-color: gray;
+    padding-left: 8px;
+    width:18%
+}
