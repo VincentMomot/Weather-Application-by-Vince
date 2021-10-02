@@ -1,7 +1,8 @@
 h1{
     color:white;
     text-align: center;
-    background-image: linear-gradient(to right,blue, purple 70%)  
+    background-image: linear-gradient(to right,blue, purple 70%);
+    padding: 5px 0px;
 }       
 
 #cityDiv{
