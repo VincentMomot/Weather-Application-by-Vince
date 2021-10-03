@@ -3,9 +3,10 @@ const api = {
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
+var cityEL = document.querySelector(".cityButton");
 searchBtn.addEventListener('click', submit);
 citySearch.addEventListener('keypress', enter) //this is the textbox
-city.addEventListener('click', submit) //when an old search is re-clicked (might need to add an extra input parameter)
+cityEL.addEventListener('click', submitOldCity) //when an old search is re-clicked (might need to add an extra input parameter)
 weatherDiv.style.display = "none";
 
 function enter(event) {
@@ -15,14 +16,18 @@ function enter(event) {
 }
 function submit() {
     getWeather(citySearch.value);
-    // console.log(citySearch.value);
+    weatherDiv.style.display = "block";
     citySearch.value = '';
+}
+
+function submitOldCity() {
+    getWeather(city.textContent);
     weatherDiv.style.display = "block";
 }
 
 var date;
-const arr = [d1, d2, d3, d4, d5, i1, i2, i3, i4, i5, t1, t2, t3, t4, t5, w1, w2, w3, w4, w5, h1, h2, h3, h4, h5]
-
+var icon;
+const arr = [d1, d2, d3, d4, d5, i1, i2, i3, i4, i5, t1, t2, t3, t4, t5, w1, w2, w3, w4, w5, h1, h2, h3, h4, h5];
 function getWeather(query) {
     fetch(`${api.base}forecast?q=${query}&appid=${api.key}`).then(function (response) {
         return response.json();
@@ -40,6 +45,11 @@ function getWeather(query) {
             console.log(oneCallData); //all weather data
             temperature = oneCallData.current.temp
             tempConvert(temperature);
+            var weather = oneCallData.current.weather[0].id;
+            weatherIcon(weather);
+            var textnode = document.createTextNode(icon);
+            cityName.appendChild(textnode);
+
             temp.textContent = "Temp: " + tempF + " °F";
             wind.textContent = "Wind: " + oneCallData.current.wind_speed + " mph";
             humidity.textContent = "Humidity: " + oneCallData.current.humidity + "%";
@@ -49,6 +59,10 @@ function getWeather(query) {
                 timeconvert(dateUnix);
                 arr[i].textContent = date;
 
+                var weather = oneCallData.daily[i + 1].weather[0].id;
+                weatherIcon(weather);
+                arr[i + 5].textContent = icon;
+
                 temperature = oneCallData.daily[i + 1].temp.day;
                 tempConvert(temperature);
                 arr[i + 10].textContent = "Temp: " + tempF + " °F";
@@ -57,14 +71,19 @@ function getWeather(query) {
 
                 arr[i + 20].textContent = "Humidity: " + oneCallData.daily[i + 1].humidity + "%";
             }
-
+            //this is to make a new button
+            let btn = document.createElement("button");
+            btn.innerHTML = cityName.textContent;
+            console.log(cityName.textContent)
+            cityDiv.appendChild(btn);
+            btn.classList.add('cityButton');
+            cityEL.addEventListener('click', submitOldCity) //when an old search is re-clicked (might need to add an extra input parameter)
 
 
 
         })
     })
 }
-
 
 
 function timeconvert(dateUnix) {
@@ -77,4 +96,25 @@ function timeconvert(dateUnix) {
 var tempF;
 function tempConvert(temperature) {
     tempF = Math.round((temperature - 273.15) * 9 / 5 + 32);
+}
+
+function weatherIcon(weather) {
+    if (weather > 800) {
+        icon = String.fromCodePoint(0x1F325);
+    }
+    else if (weather == 800) {
+        icon = String.fromCodePoint(0x2600);
+    }
+    else if (weather > 299 && weather < 600) {
+        icon = String.fromCodePoint(0x1F327);
+    }
+    else if (weather < 300) {
+        icon = String.fromCodePoint(0x26C8);
+    }
+    else if (weather > 599 && weather < 700) {
+        icon = String.fromCodePoint(0x1F328);
+    }
+    else {
+        icon = String.fromCodePoint(0x1F32B);
+    }
 }
