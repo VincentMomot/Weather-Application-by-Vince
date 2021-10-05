@@ -10,8 +10,8 @@ searchBtn.addEventListener('click', submit);
 citySearch.addEventListener('keypress', enter) //this is the textbox
 //cityEL.addEventListener('click', submitOldCity) //when an old search is re-clicked (might need to add an extra input parameter)
 weatherDiv.style.display = "none";
-searchedCities = [];
-
+searchedCitiesVince1 = [];
+var toggle;
 
 //runs the entire weather when enter or search is clicked
 function enter(event) {
@@ -20,6 +20,7 @@ function enter(event) {
     }
 }
 function submit() {
+    toggle=1;
     getWeather(citySearch.value);
     weatherDiv.style.display = "block"; //displays only when city is entered
     citySearch.value = '';
@@ -27,15 +28,29 @@ function submit() {
 
 //gets the weather when old search is clicked
 function submitOldCity(btnID) {
-    searchedCities.push(btnID);
+    toggle=0;
+    searchedCitiesVince1.push(btnID);   //repeat issues here
     getWeather(btnID);
     weatherDiv.style.display = 'block'; //displays only when city is entered
 }
 
-var save;
-if (save==0){
-var localCount=0; ///work here
+
+//local storage
+var SaveVince1 = localStorage.getItem("SaveVince1");
+if (SaveVince1 == 1) {
+    var localCountVince123 = localStorage.getItem("localCountVince123");
+    var searchedCitiesVince1=JSON.parse(localStorage.getItem("searchedCitiesVince1"));
+    for(var j=0; j<localCountVince123; j++){
+        //generate buttons here
+    }
 }
+else{
+    searchedCitiesVince1 = [];
+    var localCountVince123 = 0;
+    console.log("nostorage")
+}
+
+
 var date;
 var icon;
 const arr = [d1, d2, d3, d4, d5, i1, i2, i3, i4, i5, t1, t2, t3, t4, t5, w1, w2, w3, w4, w5, h1, h2, h3, h4, h5];
@@ -49,10 +64,20 @@ function getWeather(query) {
         timeconvert(dateUnix);
         var name1 = data.city.name
         cityName.textContent = name1 + " " + "(" + date + ")";
-        localCount++;
-        if (!searchedCities.includes(name1)) {
+
+        if (!searchedCitiesVince1.includes(name1) && toggle==1) {
+            searchedCitiesVince1[localCountVince123]=name1;
+            jsonCities=JSON.stringify(searchedCitiesVince1);
+            localStorage.setItem("searchedCitiesVince1",jsonCities);
             createNewButton(name1);
+            localCountVince123++;
+            localStorage.setItem("localCountVince123",localCountVince123)
+
         }
+
+        localStorage.setItem("SaveVince1", SaveVince1);
+        SaveVince1 = 1;
+        
         return data.city.coord;
 
     }).then(function (coordinates) {
@@ -92,7 +117,6 @@ function getWeather(query) {
                 //prints out the humidity readings
                 arr[i + 20].textContent = "Humidity: " + oneCallData.daily[i + 1].humidity + "%";
             }
-            //createNewButton(name1)
 
         })
     })
@@ -154,7 +178,4 @@ cityDiv.addEventListener('click', function (event) {
     }
 });
 
-    //NEED local storage variable to store old searches
-    //do NOT create a new button for the same city search
     //auto generate buttons from local storage
-    //button creation needs to have valid event listeners
