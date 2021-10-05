@@ -22,8 +22,8 @@ function submit() {
 }
 
 //gets the weather when old search is clicked
-function submitOldCity() {
-    getWeather(cityEL.textContent);
+function submitOldCity(cityID) {
+    getWeather(cityID);
     weatherDiv.style.display = "block"; //displays only when city is entered
 }
 
@@ -61,7 +61,7 @@ function getWeather(query) {
             humidity.textContent = "Humidity: " + oneCallData.current.humidity + "%";
             uv.textContent = "UV Index: " + oneCallData.current.uvi;
 
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 5; i++) { //sets the 5 future days
                 //date
                 var dateUnix = new Date(oneCallData.daily[i + 1].dt * 1000);
                 timeconvert(dateUnix);
@@ -79,7 +79,7 @@ function getWeather(query) {
                 //prints out the humidity readings
                 arr[i + 20].textContent = "Humidity: " + oneCallData.daily[i + 1].humidity + "%";
             }
-            createNewButton()
+            createNewButton(name1)
 
         })
     })
@@ -123,14 +123,14 @@ function weatherIcon(weather) {
 }
 
 //this is to make a new button still needs work?
-function createNewButton() {
+function createNewButton(cityName) {
     let btn = document.createElement("button");
-    btn.innerHTML = name1;
-    console.log(cityName.textContent)
+    btn.innerHTML = cityName;  
+    //console.log(cityName.textContent)
     cityDiv.appendChild(btn);
     btn.classList.add('cityButton');
-    button.id = "city"
-    city.addEventListener('click', submitOldCity) //when an old search is re-clicked (might need to add an extra input parameter)
+    btn.id = cityName;
+    cityName.addEventListener('click', submitOldCity(cityName)) //when an old search is re-clicked (might need to add an extra input parameter)
 }
 
     //NEED local storage variable to store old searches
