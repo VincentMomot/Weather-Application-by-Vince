@@ -1,7 +1,7 @@
 const api = {
     //key: "e4ce42a714cb9c3a4f80a484e0b90750", //spare key
     key: "b8f53b07d67511ae3702eb0275e02472", //logan's key
-    //key: "9eb415174fa06ab7744ba1ae33df75b1",
+    //key: "9eb415174fa06ab7744ba1ae33df75b1", //my key
     base: "https://api.openweathermap.org/data/2.5/" //used for onecall and forcast
 }
 
@@ -41,6 +41,8 @@ if (SaveVince1 == 1) {
     var localCountVince123 = localStorage.getItem("localCountVince123");
     var searchedCitiesVince1=JSON.parse(localStorage.getItem("searchedCitiesVince1"));
     for(var j=0; j<localCountVince123; j++){
+
+        createNewButton(searchedCitiesVince1[j])
         //generate buttons here
     }
 }
@@ -178,4 +180,3 @@ cityDiv.addEventListener('click', function (event) {
     }
 });
 
-    //auto generate buttons from local storage
