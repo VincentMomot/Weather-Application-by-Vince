@@ -1,5 +1,7 @@
 const api = {
-    key: "9eb415174fa06ab7744ba1ae33df75b1",
+    //key: "e4ce42a714cb9c3a4f80a484e0b90750", //spare key
+    key: "b8f53b07d67511ae3702eb0275e02472", //logan's key
+    //key: "9eb415174fa06ab7744ba1ae33df75b1",
     base: "https://api.openweathermap.org/data/2.5/" //used for onecall and forcast
 }
 
@@ -8,6 +10,8 @@ searchBtn.addEventListener('click', submit);
 citySearch.addEventListener('keypress', enter) //this is the textbox
 //cityEL.addEventListener('click', submitOldCity) //when an old search is re-clicked (might need to add an extra input parameter)
 weatherDiv.style.display = "none";
+searchedCities = [];
+
 
 //runs the entire weather when enter or search is clicked
 function enter(event) {
@@ -22,14 +26,18 @@ function submit() {
 }
 
 //gets the weather when old search is clicked
-function submitOldCity(cityID) {
-    getWeather(cityID);
-    weatherDiv.style.display = "block"; //displays only when city is entered
+function submitOldCity(btnID) {
+    searchedCities.push(btnID);
+    getWeather(btnID);
+    weatherDiv.style.display = 'block'; //displays only when city is entered
 }
 
+var save;
+if (save==0){
+var localCount=0; ///work here
+}
 var date;
 var icon;
-var name1;
 const arr = [d1, d2, d3, d4, d5, i1, i2, i3, i4, i5, t1, t2, t3, t4, t5, w1, w2, w3, w4, w5, h1, h2, h3, h4, h5];
 
 function getWeather(query) {
@@ -39,15 +47,20 @@ function getWeather(query) {
         //console.log(data);
         var dateUnix = new Date(data.list[0].dt * 1000);
         timeconvert(dateUnix);
-        name1 = data.city.name
+        var name1 = data.city.name
         cityName.textContent = name1 + " " + "(" + date + ")";
-        return data.city.coord
+        localCount++;
+        if (!searchedCities.includes(name1)) {
+            createNewButton(name1);
+        }
+        return data.city.coord;
+
     }).then(function (coordinates) {
         //console.log(coordinates.lon)
         fetch(`${api.base}onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${api.key}`).then(function (onecallweather) {
             return onecallweather.json()
         }).then(function (oneCallData) {
-            console.log(oneCallData); //all weather data
+            //console.log(oneCallData); //all weather data/////////////////////////////////////////////////////////
             temperature = oneCallData.current.temp
             tempConvert(temperature);
             var weather = oneCallData.current.weather[0].id;
@@ -79,7 +92,7 @@ function getWeather(query) {
                 //prints out the humidity readings
                 arr[i + 20].textContent = "Humidity: " + oneCallData.daily[i + 1].humidity + "%";
             }
-            createNewButton(name1)
+            //createNewButton(name1)
 
         })
     })
@@ -123,18 +136,25 @@ function weatherIcon(weather) {
 }
 
 //this is to make a new button still needs work?
-function createNewButton(cityName) {
-    let btn = document.createElement("button");
-    btn.innerHTML = cityName;  
+function createNewButton(cityID) {
+    let btn = document.createElement('button');
+    btn.innerHTML = cityID;
     //console.log(cityName.textContent)
     cityDiv.appendChild(btn);
     btn.classList.add('cityButton');
-    btn.id = cityName;
-    cityName.addEventListener('click', submitOldCity(cityName)) //when an old search is re-clicked (might need to add an extra input parameter)
+    btn.id = cityID;
+    //when an old search is re-clicked (might need to add an extra input parameter)
 }
+
+cityDiv.addEventListener('click', function (event) {
+    if (event.target.className === 'cityButton') {
+        submitOldCity(event.target.id);
+    } else {
+        return;
+    }
+});
 
     //NEED local storage variable to store old searches
     //do NOT create a new button for the same city search
     //auto generate buttons from local storage
     //button creation needs to have valid event listeners
-    
