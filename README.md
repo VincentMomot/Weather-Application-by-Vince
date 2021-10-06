@@ -21,4 +21,4 @@ Use this webpage to view the weather in various cities
 Want to look at a city's weather from all around the world? [Check it out HERE!](https://vincentmomot.github.io/Weather-Application-by-Vince)
 
 Screenshots of the site:
-![This is an image of my main page](assets/ss.png)
+![This is an image of my main page](assets/weatherShot.png)
