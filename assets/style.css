@@ -73,3 +73,10 @@ h3{
 .weatherEmoji{
     font-size: 2em;
 }
+
+#uv{
+    width:fit-content;
+    padding-right: 4px;
+
+    border-radius: 3px;
+}

@@ -100,6 +100,7 @@ function getWeather(query) {
             wind.textContent = "Wind: " + oneCallData.current.wind_speed + " mph";
             humidity.textContent = "Humidity: " + oneCallData.current.humidity + "%";
             uv.textContent = "UV Index: " + oneCallData.current.uvi;
+            uvColor(oneCallData.current.uvi);
 
             for (var i = 0; i < 5; i++) { //sets the 5 future days
                 //date
@@ -180,3 +181,14 @@ cityDiv.addEventListener('click', function (event) {
     }
 });
 
+function uvColor(uvVal){
+    if(uvVal<2){
+        uv.style.backgroundColor="lightgreen";
+    }
+    else if(uvVal>8){
+        uv.style.backgroundColor="red";
+    }
+    else{
+        uv.style.backgroundColor="yellow";
+    }
+}

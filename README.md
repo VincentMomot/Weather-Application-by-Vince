@@ -7,6 +7,7 @@ Use this webpage to view the weather in various cities
 3) An enter button will submit text as well as the submit button
 4) A new search that is the same as an old search will not create a new button element
 5) Icons are added to give general weather information from the API to the user
+6) UV readout shows a green yellow or red banner based on intensity
 
 
 ### What I learned from the creation of this site:
